@@ -28,8 +28,8 @@ class CarFactory:
             return f'''{self.type[0]}-
                     {self.color[0]}-
                     {today.year}-
-                    {f'0{today.month}'[-2:]}-
-                    {f'00000{self.engine.unique_number}'[-6:]}'''
+                    {today.month:02d}-
+                    {self.engine.unique_number:06d}'''
 
         @property
         @classmethod
