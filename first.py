@@ -16,24 +16,11 @@ def foo1(foo, *args):
 
 
 def foo2(*args):
-    s = ''
-    for arg in args:
-        try:
-            s += arg
-        except:
-            pass
-    return s
+    return ''.join(filter(lambda x: type(x) == str, args))
 
 
 def foo3(*args):
-    s = ''
-    for arg in args:
-        try:
-            s += arg
-            s += ' '
-        except:
-            pass
-    return s[:-1] if len(s) > 0 else s
+    return ' '.join(filter(lambda x: type(x) == str, args))
 
 
 def printfunc(func):
