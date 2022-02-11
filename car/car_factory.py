@@ -3,10 +3,14 @@ from engine.engine_in_use import EngineInUse
 
 
 class CarFactory:
-    _brand = 'BMW'
-    _produced_cars_number = 0
+
+    def get_car(self, *args, **kwargs):
+        return self.Car(*args, **kwargs)
 
     class Car:
+        _brand = 'BMW'
+        _produced_cars_number = 0
+
         def __init__(self, type, model, color, engine: EngineInUse):
             self.type = type
             self.model = model
@@ -31,10 +35,15 @@ class CarFactory:
                     {today.month:02d}-
                     {self.engine.unique_number:06d}'''
 
-        @property
         @classmethod
+        @property
         def brand(cls):
             return cls._brand
+
+        @classmethod
+        @property
+        def produced_cars_number(cls):
+            return cls._produced_cars_number
 
         @classmethod
         def _new_car_produced(cls):
@@ -43,7 +52,10 @@ class CarFactory:
         @staticmethod
         def get_more_mileage_car(car1, car2):
             if (car1.engine.current_engine_mileage
-                    >= car2.engine.current_engine_mileage):
+                    > car2.engine.current_engine_mileage):
                 return car1
-            else:
+            elif (car2.engine.current_engine_mileage
+                    > car1.engine.current_engine_mileage):
                 return car2
+            else:
+                return None
