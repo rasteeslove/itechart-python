@@ -81,7 +81,10 @@ def demo():
     print('\n\n\n')
 
     # 7:
-    foo7(28, 'never', False, 3.6, 2.7, 'the', -77, set([1, 2, 3]), 'less', 50.5, func1=printfunc(foo2), func2=printfunc(foo3), func3=printfunc(my_sum), kwarg1=42, kwarg2='banana')
+    foo7(28, 'never', False, 3.6, 2.7, 'the', -77,
+         set([1, 2, 3]), 'less', 50.5, func1=printfunc(foo2),
+         func2=printfunc(foo3), func3=printfunc(my_sum),
+         kwarg1=42, kwarg2='banana')
 
 
 if __name__ == '__main__':
