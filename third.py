@@ -1,40 +1,23 @@
+from file_manipulator.file_manipulator import FileManipulator
 import os
 
 
 def demo_write():
-    mode = 'w'
-
+    # 1: getting the filename:
     print('Note: if file doesn\'t exist \'.demo\' '
           'will be appended to the name.')
     filename = input('Enter filename/full path '
                      'of the file to write to: ')
 
-    # 1: checking if the file exists:
-    if os.path.isfile(filename):
-        # a.1: checking if the os allows writing to it:
-        if not os.access(filename, os.W_OK):
-            print(f'Cannot write to {filename}. Permission denied.')
-            return
-        # a.2: asking whether to overwrite or to append
-        # if the file is not empty:
-        if os.path.getsize(filename) > 0:
-            choice = None
-            while choice != 'o' and choice != 'a':
-                choice = input('Overwrite/append? [o/a]: ')
-            if choice == 'a':
-                mode = 'a'
-    else:
-        # b.1: checking if the os allows creating it:
-        # (that means checking 'w' permission for its directory)
-        dirpath = os.path.dirname(filename)
-        if not dirpath:
-            dirpath = './'
-        if not os.access(dirpath, os.W_OK):
-            print(f'Cannot create file in {dirpath}. Permission denied.')
-            return
+    if not os.path.isfile(filename):
         filename += '.demo'
 
-    # 2: getting the input to write to file:
+    # 2: asking whether to overwrite or to append:
+    mode = None
+    while mode != 'w' and mode != 'a':
+        mode = input('Overwrite/append? [w/a]: ')
+
+    # 3: getting the input:
     print('Enter the text (Ctrl-D to stop the input): ')
     lines = []
     while True:
@@ -45,42 +28,34 @@ def demo_write():
         lines.append(line)
     text = '\n'.join(lines)
 
-    # 3: writing to file:
-    try:
-        with open(filename, mode) as f:
-            f.write(text)
-    except:
-        print('Something went wrong while writing to file!')
-    finally:
-        print('Finished writing!')
+    # 4: writing:
+    with FileManipulator.open(filename, mode) as f:
+        f.write(text)
 
 
 def demo_read():
+    # 1: getting the filename:
     filename = input('Enter filename/full path '
                      'of the file to read from: ')
 
-    # 1: checking if the os allows reading the file:
-    if not os.access(filename, os.R_OK):
-        print(f'Cannot read {filename}. Permission denied.')
-        return
+    # 2: reading:
+    with FileManipulator.open(filename, 'r') as f:
+        contents = f.read()
 
-    # 2: checking if the file exists:
-    if not os.path.isfile(filename):
-        print('The file doesn\'t exist!')
-        return
-
-    # 3: reading the file:
-    try:
-        with open(filename, 'r') as f:
-            contents = f.read()
-    except:
-        print('Something went wrong while reading file!')
-        return
-    finally:
-        print('Finished reading!')
-    
+    # 3: printing:
     print(contents)
 
 
+def demo():
+    choice = None
+    while choice != 'r' and choice != 'w':
+        choice = input('Read/write? [r/w]: ')
+
+    if choice == 'r':
+        demo_read()
+    else:
+        demo_write()
+
+
 if __name__ == '__main__':
-    demo_read()
+    demo()
