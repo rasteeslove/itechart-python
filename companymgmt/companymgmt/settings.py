@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'companymgmt.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql', # or should it be postgresql_psycopg2 ?
         'NAME': 'companymgmtdb',
         'USER': 'krastsislau',
         'PASSWORD': postgres_db_pass,
