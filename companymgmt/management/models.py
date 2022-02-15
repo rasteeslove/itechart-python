@@ -1,7 +1,20 @@
+from datetime import datetime
 from django.db import models
 
 
-class Company(models.Model):
+class DBRecord(models.Model):
+    """
+    To store db objects' metadata (i.e., creation datetime
+    and last update datetime)
+    """
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Company(DBRecord):
     name = models.CharField(max_length=30)
     website = models.URLField(max_length=30)
     email = models.EmailField(max_length=30)
@@ -9,7 +22,7 @@ class Company(models.Model):
     logo = models.ImageField(upload_to='logos')
 
 
-class Employee(models.Model):
+class Employee(DBRecord):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
     job_position = models.CharField(max_length=30)
@@ -23,7 +36,7 @@ class Employee(models.Model):
     )
 
 
-class PersonalData(models.Model):
+class PersonalData(DBRecord):
     birth_date = models.DateField()
     address = models.CharField(max_length=60) # tmp workaround (TextField maybe ?)
     salary = models.DecimalField(max_digits=6, decimal_places=2)
@@ -34,7 +47,7 @@ class PersonalData(models.Model):
     )
 
 
-class Bank(models.Model):
+class Bank(DBRecord):
     name = models.CharField(max_length=30)
     website = models.URLField(max_length=30)
     email = models.EmailField(max_length=30)
