@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from management.views import ListAllCompanies, GetAllEmployees, get_all_banks
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/all-companies', ListAllCompanies.as_view()),
+    path('api/all-employees', GetAllEmployees.as_view()),
+    path('api/all-banks', get_all_banks),
 ]

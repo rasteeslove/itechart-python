@@ -1,43 +1,27 @@
 from rest_framework import serializers
-from companymgmt.management import models
+from management.models import Company, Employee, PersonalData, Bank
 
 
-class DBRecordSerializer(serializers.Serializer):
-    created = serializers.DateTimeField()
-    updated = serializers.DateTimeField()
+class CompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ['id', 'name', 'website', 'email', 'postcode']
 
 
-class CompanySerializer(DBRecordSerializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=30)
-    website = serializers.URLField(max_length=30)
-    email = serializers.EmailField(max_length=30)
-    postcode = serializers.CharField(max_length=10)
-    logo = serializers.ImageField()
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['id', 'first_name', 'last_name', 'job_position',
+                  'is_manager', 'is_admin', 'phone_number', 'company']
 
 
-class EmployeeSerializer(DBRecordSerializer):
-    id = serializers.IntegerField(read_only=True)
-    first_name = serializers.CharField(max_length=30)
-    last_name = serializers.CharField(max_length=30)
-    job_position = serializers.CharField(max_length=30)
-    is_manager = serializers.BooleanField()
-    is_admin = serializers.BooleanField()
-    phone_number = serializers.CharField(max_length=15)
-    company = serializers.PrimaryKeyRelatedField(many=True)
+class PersonalDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PersonalData
+        fields = ['id', 'birth_date', 'address', 'salary', 'employee']
 
 
-class PersonalDataSerializer(DBRecordSerializer):
-    id = serializers.IntegerField(read_only=True)
-    birth_date = serializers.DateField()
-    address = serializers.CharField(max_length=60)
-    salary = serializers.DecimalField(max_digits=6, decimal_places=2)
-    employee = serializers.PrimaryKeyRelatedField()
-
-
-class BankSerializer(DBRecordSerializer):
-    id = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=30)
-    website = serializers.URLField(max_length=30)
-    email = serializers.EmailField(max_length=30)
-    company = serializers.PrimaryKeyRelatedField(many=True)
+class BankSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bank
+        fields = ['id', 'name', 'website', 'email', 'company']

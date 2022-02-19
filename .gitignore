@@ -130,3 +130,6 @@ dmypy.json
 
 # my secret keys and passwords, etc
 secrets.py
+
+# the logo directory
+logos/
