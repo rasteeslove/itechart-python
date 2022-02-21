@@ -133,6 +133,3 @@ secrets.py
 
 # the logo directory
 logos/
-
-# for my file manipulation testing
-*.demo
