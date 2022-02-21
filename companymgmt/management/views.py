@@ -2,17 +2,27 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from management.models import Company, Employee, Bank
-from management.serializers import CompanySerializer, EmployeeSerializer, BankSerializer
+from management.models import Company, Employee, Bank, PersonalData
+from management.serializers import CompanySerializer, EmployeeSerializer, BankSerializer, EmployeeFullDetailsSerializer
 
 
 class GetAllEmployees(APIView):
     """
-    A view to get all info about all employees.
+    A view to get info about all employees, personal data excluded.
     """
     def get(self, request, format=None):
         employees = Employee.objects.all()
         serializer = EmployeeSerializer(employees, many=True)
+        return Response(serializer.data)
+
+
+class GetAllEmployeesFullDetails(APIView):
+    """
+    A view to get info about all employees, personal data included.
+    """
+    def get(self, request, format=None):
+        employees = Employee.objects.all()
+        serializer = EmployeeFullDetailsSerializer(employees, many=True)
         return Response(serializer.data)
 
 

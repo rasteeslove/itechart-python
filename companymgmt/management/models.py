@@ -41,8 +41,9 @@ class PersonalData(DBRecord):
     salary = models.DecimalField(max_digits=6, decimal_places=2)
     employee = models.OneToOneField(
         Employee,
-        on_delete=models.CASCADE,
-        related_name='data'
+        on_delete=models.PROTECT, # don't delete an employee
+                                  # when deleting their personal data
+        related_name='personal_data'
     )
 
 
