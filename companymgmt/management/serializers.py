@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from management.models import Company, Employee, Bank
+from management.models import Company, Employee, Bank, PersonalData
 
 
 class CompanySerializer(serializers.ModelSerializer):
@@ -12,6 +12,16 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = '__all__'
+
+
+class PersonalDataSerializer(serializers.ModelSerializer):
+    """
+    Not used rn.
+    """
+    class Meta:
+        model = PersonalData
+        # no need for id and employee fields I suppose?
+        fields = ('birth_date', 'address', 'salary', 'created', 'updated')
 
 
 class EmployeeFullDetailsSerializer(serializers.ModelSerializer):
