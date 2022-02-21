@@ -52,6 +52,9 @@ class PersonalData(DBRecord):
         related_name='personal_data'
     )
 
+    def __str__(self):
+        return f'{self.employee}\'s data'
+
 
 class Bank(DBRecord):
     name = models.CharField(max_length=30)
