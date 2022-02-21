@@ -20,6 +20,9 @@ class Company(DBRecord):
     postcode = models.CharField(max_length=10) # tmp workaround
     logo = models.ImageField(upload_to='logos')
 
+    def __str__(self):
+        return self.name
+
 
 class Employee(DBRecord):
     first_name = models.CharField(max_length=30)
@@ -33,6 +36,9 @@ class Employee(DBRecord):
         on_delete=models.CASCADE,
         related_name='employee'
     )
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
 
 
 class PersonalData(DBRecord):
@@ -55,3 +61,6 @@ class Bank(DBRecord):
         Company,
         related_name='bank'
     )
+
+    def __str__(self):
+        return self.name
