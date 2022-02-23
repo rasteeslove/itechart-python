@@ -46,3 +46,35 @@ def get_all_banks(request):
     banks = Bank.objects.all()
     serializer = BankSerializer(banks, many=True)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def get_date_company(request):
+    """
+    Take two dates as arguments - A and B, A < B.
+    Return a company that was created in a given date period
+    and has the most recent update date that does not exceed B.
+    """
+
+
+@api_view(['POST'])
+def salary_birthday_increase(request):
+    """
+    Take number and date as arguments.
+    Increase salary by the number for all employees
+    that have the date as their birthday.
+    """
+
+
+@api_view(['POST'])
+def create_companies(request):
+    """
+    Take any number of company data and create the companies.
+    """
+
+
+@api_view(['GET'])
+def get_newest_employees(request):
+    """
+    Return the last created employee for each company.
+    """
