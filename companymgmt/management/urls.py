@@ -1,5 +1,8 @@
 from django.urls import path
-from management.views import ListAllCompanies, GetAllEmployees, GetAllEmployeesFullDetails, get_all_banks
+from management.views import (ListAllCompanies,
+                              GetAllEmployees,
+                              GetAllEmployeesFullDetails,
+                              get_all_banks)
 
 
 mgmt_urlpatterns = [

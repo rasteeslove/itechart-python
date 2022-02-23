@@ -2,9 +2,10 @@ from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from management.models import Company, Employee, Bank, PersonalData
 from management.serializers import CompanySerializer, EmployeeSerializer, BankSerializer, EmployeeFullDetailsSerializer
+from management.decorators import allow_admins_only
 
 
 class GetAllEmployees(APIView):
@@ -31,6 +32,7 @@ class GetAllEmployeesFullDetails(APIView):
 class ListAllCompanies(generics.ListCreateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+    permission_classes = [IsAdminUser]
 
     def list(self, request):
         queryset = self.get_queryset()
@@ -39,6 +41,7 @@ class ListAllCompanies(generics.ListCreateAPIView):
 
 
 @api_view()
+@allow_admins_only
 def get_all_banks(request):
     banks = Bank.objects.all()
     serializer = BankSerializer(banks, many=True)
