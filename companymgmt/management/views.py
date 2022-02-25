@@ -1,3 +1,5 @@
+from django.db.models import F
+import json
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.decorators import api_view
@@ -64,6 +66,13 @@ def salary_birthday_increase(request):
     Increase salary by the number for all employees
     that have the date as their birthday.
     """
+    birth_date_arg = request.POST.get('birth_date')
+    salary_increase_arg = request.POST.get('salary_increase')
+    personal_data_objects = PersonalData.objects.filter(
+                                birth_date=birth_date_arg)
+    personal_data_objects.update(salary=F('salary')+
+                                salary_increase_arg)
+    return Response()
 
 
 @api_view(['POST'])
@@ -78,3 +87,11 @@ def get_newest_employees(request):
     """
     Return the last created employee for each company.
     """
+    companies = Company.objects.all().iterator()
+    employees = []
+    for company in companies:
+        employees.append(Employee.objects
+            .filter(company=company.id)
+            .latest('created'))
+    serializer = EmployeeSerializer(employees, many=True)
+    return Response(serializer.data)
