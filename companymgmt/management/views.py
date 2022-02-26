@@ -80,6 +80,9 @@ def create_companies(request):
     """
     Take any number of company data and create the companies.
     """
+    for company_data in request.data.get('companies_data'):
+        Company(**company_data).save()
+    return Response()
 
 
 @api_view(['GET'])
