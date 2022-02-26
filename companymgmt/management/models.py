@@ -18,7 +18,7 @@ class Company(DBRecord):
     website = models.URLField(max_length=30)
     email = models.EmailField(max_length=30)
     postcode = models.CharField(max_length=10) # tmp workaround
-    logo = models.ImageField(upload_to='logos')
+    logo = models.ImageField(upload_to='logos', blank=True)
 
     def __str__(self):
         return self.name
