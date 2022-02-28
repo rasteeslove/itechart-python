@@ -9,6 +9,7 @@ import socket
 import time
 import json
 import logging
+from rest_framework.response import Response
 
 
 logging.basicConfig(filename='requests.log',
@@ -36,16 +37,25 @@ class LoggingMiddleware:
         self.log_data['request_method'] = request.method
         self.log_data['request_path'] = request.get_full_path()
 
-        if request.body:
-            request_body = request.body.decode('utf-8')
-            self.log_data['request_body'] = request_body
+        '''
+        if request.query_params: # GET
+            params = request.query_params
+            self.log_data['request_query_params'] = params
+
+        if request.body: # POST
+            body = request.body
+            self.log_data['request_body'] = body
+        '''
 
         self.start_time = time.time()
-        response = self.get_response(request)
+        try:
+            response = self.get_response(request)
+        except:
+            response = Exception()
         run_time = time.time() - self.start_time
         self.log_data['run_time'] = run_time
 
-        if response:
+        if type(response) == Response:
             if response.get('content-type') == 'application/json':
                 if getattr(response, 'streaming', False):
                     response_body = '[Streaming]'
@@ -53,12 +63,7 @@ class LoggingMiddleware:
                     response_body = response.content
             else:
                 response_body = '[Not JSON]'
-        else:
-            response_body = None
-
-        if response:
             self.log_data['response_status'] = response.status_code
-        if response_body:
             self.log_data['response_body'] = response_body
 
         logger.info(msg=self.log_data)
