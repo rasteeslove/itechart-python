@@ -53,10 +53,18 @@ def get_all_banks(request):
 @api_view(['GET'])
 def get_date_company(request):
     """
-    Take two dates as arguments - A and B, A < B.
+    Take two dates as arguments - date_a and date_b, date_a < date_b.
     Return a company that was created in a given date period
-    and has the most recent update date that does not exceed B.
+    and has the most recent update date that does not exceed date_b.
     """
+    date_a = request.query_params.get('date_a')
+    date_b = request.query_params.get('date_b')
+    company = (Company.objects
+        .filter(created__range=[date_a, date_b],
+                updated__lte=date_b)
+        .latest('updated'))
+    serializer = CompanySerializer(company)
+    return Response(serializer.data)
 
 
 @api_view(['POST'])
