@@ -1,13 +1,14 @@
 from django.db.models import F
-import json
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from companymgmt.settings import JWT_AUTH
 from management.models import Company, Employee, Bank, PersonalData
 from management.serializers import CompanySerializer, EmployeeSerializer, BankSerializer, EmployeeFullDetailsSerializer
 from management.decorators import allow_admins_only
+from companymgmt.management.utils import apply_decorator_on_condition
 
 
 class GetAllEmployees(APIView):
@@ -24,7 +25,7 @@ class GetAllEmployeesFullDetails(APIView):
     """
     A view to get info about all employees, personal data included.
     """
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated] if JWT_AUTH else []
     def get(self, request, format=None):
         employees = Employee.objects.all()
         serializer = EmployeeFullDetailsSerializer(employees, many=True)
@@ -34,7 +35,7 @@ class GetAllEmployeesFullDetails(APIView):
 class ListAllCompanies(generics.ListCreateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser] if JWT_AUTH else []
 
     def list(self, request):
         queryset = self.get_queryset()
@@ -43,7 +44,7 @@ class ListAllCompanies(generics.ListCreateAPIView):
 
 
 @api_view()
-@allow_admins_only
+@apply_decorator_on_condition(allow_admins_only, JWT_AUTH)
 def get_all_banks(request):
     banks = Bank.objects.all()
     serializer = BankSerializer(banks, many=True)

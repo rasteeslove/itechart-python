@@ -27,6 +27,8 @@ SECRET_KEY = secret_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+JWT_AUTH = False
+
 ALLOWED_HOSTS = []
 
 
