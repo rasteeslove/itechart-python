@@ -8,7 +8,7 @@ from companymgmt.settings import JWT_AUTH
 from management.models import Company, Employee, Bank, PersonalData
 from management.serializers import CompanySerializer, EmployeeSerializer, BankSerializer, EmployeeFullDetailsSerializer
 from management.decorators import allow_admins_only
-from companymgmt.management.utils import apply_decorator_on_condition
+from management.utils import apply_decorator_on_condition
 
 
 class GetAllEmployees(APIView):
