@@ -32,39 +32,27 @@ class LoggingMiddleware:
     def __call__(self, request):
         self.log_data = {}
 
+        # log some essential request metadata:
         self.log_data['remote_address'] = request.META['REMOTE_ADDR']
         self.log_data['server_hostname'] = socket.gethostname()
         self.log_data['request_method'] = request.method
         self.log_data['request_path'] = request.get_full_path()
 
-        '''
-        if request.query_params: # GET
-            params = request.query_params
-            self.log_data['request_query_params'] = params
+        # log the query params for GET requests:
+        if request.GET:
+            get = request.GET
+            self.log_data['get_request'] = get
 
-        if request.body: # POST
-            body = request.body
+        # log the request body as a json-parsed dict:
+        if request.body:
+            body = json.loads(request.body)
             self.log_data['request_body'] = body
-        '''
 
+        # get response and log the run time:
         self.start_time = time.time()
-        try:
-            response = self.get_response(request)
-        except:
-            response = Exception()
+        response = self.get_response(request)
         run_time = time.time() - self.start_time
         self.log_data['run_time'] = run_time
-
-        if type(response) == Response:
-            if response.get('content-type') == 'application/json':
-                if getattr(response, 'streaming', False):
-                    response_body = '[Streaming]'
-                else:
-                    response_body = response.content
-            else:
-                response_body = '[Not JSON]'
-            self.log_data['response_status'] = response.status_code
-            self.log_data['response_body'] = response_body
 
         logger.info(msg=self.log_data)
 
