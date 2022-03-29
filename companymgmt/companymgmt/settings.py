@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+import os
 from datetime import timedelta
 from pathlib import Path
 from companymgmt.secrets import secret_key, postgres_db_pass
@@ -29,7 +29,9 @@ DEBUG = True
 
 JWT_AUTH = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0'
+]
 
 
 # Application definition
@@ -100,15 +102,26 @@ WSGI_APPLICATION = 'companymgmt.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'main': {
         'ENGINE': 'django.db.backends.postgresql', # or should it be postgresql_psycopg2 ?
         'NAME': 'companymgmtdb',
         'USER': 'krastsislau',
         'PASSWORD': postgres_db_pass,
         'HOST': '127.0.0.1',
         'PORT': '5432',
+    },
+    'docker': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'cmgmt_db',
+        'PORT': '5432',
     }
 }
+
+default_database = os.environ.get('DJANGO_DATABASE', 'main')
+DATABASES['default'] = DATABASES[default_database]
 
 
 # Password validation

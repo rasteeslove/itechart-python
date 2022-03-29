@@ -1,21 +1,26 @@
 services:
-    db:
+    cmgmt_db:
         image: postgres
         volumes:
-            - cmgmtvol:/var/lib/postgresql/data
+            - cmgmt_vol:/var/lib/postgresql/data
         environment:
             - POSTGRES_DB=postgres
             - POSTGRES_USER=postgres
             - POSTGRES_PASSWORD=postgres
-    web:
+    cmgmt_web:
         build: .
+        command: bash -c "
+            chmod +x ./postgres-awaiter.sh &&
+            ./postgres-awaiter.sh &&
+            python manage.py migrate --database=docker &&
+            python manage.py runserver 0.0.0.0:8000" # here 'makemigrations' command is not used, dunno is thats ok
         volumes:
             - .:/code
         ports:
             - "8000:8000"
         depends_on:
-            - db
+            - cmgmt_db
 
 volumes:
-    cmgmtvol: # this a named volume
+    cmgmt_vol: # this a named volume
         external: false
