@@ -2,7 +2,7 @@ services:
     cmgmt_db:
         image: postgres
         volumes:
-            - cmgmt_vol:/var/lib/postgresql/data
+            - cmgmt_vol_1:/var/lib/postgresql/data
         environment:
             - POSTGRES_DB=postgres
             - POSTGRES_USER=postgres
@@ -22,5 +22,5 @@ services:
             - cmgmt_db
 
 volumes:
-    cmgmt_vol: # this a named volume
+    cmgmt_vol_1: # this a named volume
         external: false
