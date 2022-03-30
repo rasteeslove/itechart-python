@@ -30,6 +30,7 @@ DEBUG = True
 JWT_AUTH = False
 
 ALLOWED_HOSTS = [
+    'localhost',
     '0.0.0.0'
 ]
 
@@ -110,7 +111,13 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'PORT': '5432',
     },
-    'docker': {
+}
+
+default_database = os.environ.get('DJANGO_DATABASE', 'main')
+if default_database == 'main':
+    DATABASES['default'] = DATABASES['main']
+elif default_database == 'docker':
+    DATABASES['default'] = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
@@ -118,10 +125,8 @@ DATABASES = {
         'HOST': 'cmgmt_db',
         'PORT': '5432',
     }
-}
-
-default_database = os.environ.get('DJANGO_DATABASE', 'main')
-DATABASES['default'] = DATABASES[default_database]
+else:
+    raise ValueError('Invalid DJANGO_DATABASE environment variable.')
 
 
 # Password validation
