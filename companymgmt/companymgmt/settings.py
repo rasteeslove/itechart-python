@@ -29,10 +29,7 @@ DEBUG = True
 
 JWT_AUTH = False
 
-ALLOWED_HOSTS = [
-    'localhost',
-    '0.0.0.0'
-]
+ALLOWED_HOSTS = []
 
 
 # Application definition
