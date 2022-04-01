@@ -1,0 +1,27 @@
+services:
+    cmgmt_db:
+        image: postgres
+        volumes:
+            - cmgmt_vol_1:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+    cmgmt_web:
+        build: .
+        command: bash -c "
+            chmod +x ./postgres-awaiter.sh &&
+            ./postgres-awaiter.sh &&
+            python manage.py makemigrations &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000"
+        volumes:
+            - .:/code
+        ports:
+            - "8000:8000"
+        depends_on:
+            - cmgmt_db
+
+volumes:
+    cmgmt_vol_1:
+        external: false

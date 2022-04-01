@@ -5,7 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
-from companymgmt.settings import JWT_AUTH
+from companymgmt.settings.main import JWT_AUTH
 
 from management.models import Company, Employee, Bank, PersonalData
 from management.serializers import CompanySerializer, EmployeeSerializer, BankSerializer, EmployeeFullDetailsSerializer

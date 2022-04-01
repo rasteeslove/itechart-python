@@ -12,7 +12,12 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
-from companymgmt.secrets import secret_key, postgres_db_pass
+
+import companymgmt.settings.secrets as secrets
+from companymgmt.settings.databases import (
+    LOCAL_DEV, LOCAL_TEST,
+    DOCKER_DEV, DOCKER_TEST
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,12 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret_key
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-JWT_AUTH = False
+SECRET_KEY = secrets.secret_key
 
 ALLOWED_HOSTS = []
 
@@ -74,7 +74,6 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': True,
 }
 
-
 ROOT_URLCONF = 'companymgmt.urls'
 
 TEMPLATES = [
@@ -94,36 +93,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'companymgmt.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'main': {
-        'ENGINE': 'django.db.backends.postgresql', # or should it be postgresql_psycopg2 ?
-        'NAME': 'companymgmtdb',
-        'USER': 'krastsislau',
-        'PASSWORD': postgres_db_pass,
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-    },
-}
-
-default_database = os.environ.get('DJANGO_DATABASE', 'main')
-if default_database == 'main':
-    DATABASES['default'] = DATABASES['main']
-elif default_database == 'docker':
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'cmgmt_db',
-        'PORT': '5432',
-    }
-else:
-    raise ValueError('Invalid DJANGO_DATABASE environment variable.')
 
 
 # Password validation
@@ -166,3 +135,25 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# [!!!]
+# Manual settings
+DEBUG = True
+JWT_AUTH = False
+
+
+# [!!!]
+# Now choosing settings based on CMGMT_DATABASE_MODE:
+CMGMT_DATABASE_MODE = os.environ.get('CMGMT_DATABASE_MODE', 'local_dev')
+
+DATABASE_MODES = {
+    'local_dev': LOCAL_DEV,
+    'local_test': LOCAL_TEST,
+    'docker_dev': DOCKER_DEV,
+    'docker_test': DOCKER_TEST
+}
+
+DATABASES = {
+    'default': DATABASE_MODES[CMGMT_DATABASE_MODE]
+}
