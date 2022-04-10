@@ -36,7 +36,7 @@ def admin_token_fixture(client_fixture):
 
 
 @pytest.fixture(autouse=False, scope='function')
-def nonadmin_creation_fixture(client_fixture):
+def nonadmin_token_fixture(client_fixture):
     response = client_fixture.post('/token/',
         {'username': 'joe', 'password': 'wh@tever'},
         format='json')
