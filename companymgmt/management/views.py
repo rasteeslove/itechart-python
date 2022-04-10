@@ -13,6 +13,8 @@ from management.decorators import allow_admins_only
 from management.utils import apply_decorator_on_condition
 
 
+# these are "get all" views:
+
 class GetAllEmployees(APIView):
     """
     A view to get info about all employees, personal data excluded.
@@ -52,6 +54,8 @@ def get_all_banks(request):
     serializer = BankSerializer(banks, many=True)
     return Response(serializer.data)
 
+
+# these are "logic" views:
 
 @api_view(['GET'])
 def get_date_company(request):
