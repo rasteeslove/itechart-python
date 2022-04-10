@@ -17,3 +17,34 @@ def setup_and_clear_database(django_db_setup, django_db_blocker):
 def client_fixture():
     client = APIClient()
     return client
+
+
+@pytest.fixture(autouse=False, scope='function')
+@pytest.mark.django_db
+def admin_token_fixture(client_fixture):
+    response = client_fixture.post('/token/',
+        {'username': 'krastsislau', 'password': '$def#p@ss'},
+        format='json')
+    assert response.status_code == 200
+    access_token = response.data['access']
+
+    client_fixture.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
+
+    yield
+
+    client_fixture.credentials(HTTP_AUTHORIZATION='')
+
+
+@pytest.fixture(autouse=False, scope='function')
+def nonadmin_creation_fixture(client_fixture):
+    response = client_fixture.post('/token/',
+        {'username': 'joe', 'password': 'wh@tever'},
+        format='json')
+    assert response.status_code == 200
+    access_token = response.data['access']
+
+    client_fixture.credentials(HTTP_AUTHORIZATION=f'Bearer {access_token}')
+
+    yield
+
+    client_fixture.credentials(HTTP_AUTHORIZATION='')
