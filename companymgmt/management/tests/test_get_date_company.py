@@ -53,7 +53,6 @@ def test_get_date_company_06(client_fixture: APIClient):
     assert company['name'] == 'D'
 
 
-# TODO: test in nonsensical range
+# TODO: test nonsensical input
+# TODO: test unmatched input
 # TODO: test in same-day range
-# TODO: test in empty range (i.e. in range
-# for which the view will yield nothing)
