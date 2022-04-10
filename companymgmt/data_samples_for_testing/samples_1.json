@@ -359,6 +359,18 @@
         "change_message": "[{\"added\": {}}]"
     }
 }, {
+    "model": "admin.logentry",
+    "pk": 31,
+    "fields": {
+        "action_time": "2022-04-10T19:13:33.893Z",
+        "user": 1,
+        "content_type": 4,
+        "object_id": "2",
+        "object_repr": "joe",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+}, {
     "model": "auth.permission",
     "pk": 1,
     "fields": {
@@ -683,7 +695,7 @@
     "pk": 1,
     "fields": {
         "password": "pbkdf2_sha256$320000$n3I2cpvkUY7QklZsDevOMG$T3+j6Ls9FUA8pDMulgYDi3/2Jtzoz2/ATpGSRm+Ioj0=",
-        "last_login": "2022-04-09T12:32:42.536Z",
+        "last_login": "2022-04-10T19:12:15.977Z",
         "is_superuser": true,
         "username": "krastsislau",
         "first_name": "",
@@ -692,6 +704,23 @@
         "is_staff": true,
         "is_active": true,
         "date_joined": "2022-04-09T12:27:20.481Z",
+        "groups": [],
+        "user_permissions": []
+    }
+}, {
+    "model": "auth.user",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$320000$SFEEqh6Xnzo6XiMwy9KxpN$pdmwYYMOTRlIKxFviyUl0+2ZlMvT4hzu3loGEKxoWx0=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "joe",
+        "first_name": "",
+        "last_name": "",
+        "email": "",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2022-04-10T19:13:33.741Z",
         "groups": [],
         "user_permissions": []
     }
@@ -771,6 +800,13 @@
     "fields": {
         "session_data": ".eJxVjDsOwyAQBe9CHSEW8zEp0_sMaIElOIlAMnYV5e4RkoukfTPz3szjsRd_dNr8mtiVAbv8bgHjk-oA6YH13nhsdd_WwIfCT9r50hK9bqf7d1Cwl1ETYjAOdEZLQkfSSipjJ0uopdAzCBsJnDVugknJLIQhm6IGlWeTDbDPF9wjNxY:1ndAGg:uB2QO8f_G_g__NdBYVkYv38UrBjzmNjrjDuyksITFM4",
         "expire_date": "2022-04-23T12:32:42.538Z"
+    }
+}, {
+    "model": "sessions.session",
+    "pk": "f8j2kz72lzluqcs79ngaf9u84pb4x47j",
+    "fields": {
+        "session_data": ".eJxVjDsOwyAQBe9CHSEW8zEp0_sMaIElOIlAMnYV5e4RkoukfTPz3szjsRd_dNr8mtiVAbv8bgHjk-oA6YH13nhsdd_WwIfCT9r50hK9bqf7d1Cwl1ETYjAOdEZLQkfSSipjJ0uopdAzCBsJnDVugknJLIQhm6IGlWeTDbDPF9wjNxY:1ndcyt:6kBoR-aliBH0FvYtavi7iCzeSb6MFVLqJ4CsMJYn7Ig",
+        "expire_date": "2022-04-24T19:12:15.983Z"
     }
 }, {
     "model": "management.company",
