@@ -17,7 +17,7 @@ run_local_tests:
 	export CMGMT_DATABASE_MODE=local_test; \
 	python manage.py makemigrations; \
 	python manage.py migrate; \
-	pytest -rP
+	coverage run -m pytest -rP
 
 launch_dev_docker:
 	export CMGMT_DATABASE_MODE=docker_dev; \
