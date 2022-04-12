@@ -22,8 +22,11 @@ def test_birthday_increase(client_fixture: APIClient, date, increase):
     pdatas = PersonalData.objects.filter(birth_date=date)
     old_salaries = [pdata.salary for pdata in pdatas]
     response = client_fixture.post('/api/salary-birthday-increase',
-        {'birth_date': date, 'salary_increase': increase},
-        format='json')
+                                   {
+                                       'birth_date': date,
+                                       'salary_increase': increase,
+                                   },
+                                   format='json')
     assert response.status_code == 200
     pdatas = PersonalData.objects.filter(birth_date=date)
     new_salaries = [pdata.salary for pdata in pdatas]

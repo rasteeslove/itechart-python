@@ -31,4 +31,3 @@ def test_create_companies(client_fixture: APIClient):
     assert response.status_code == 200
     new_companies_number = len(Company.objects.all())
     assert new_companies_number == old_companies_number+2
-

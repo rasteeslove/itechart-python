@@ -31,7 +31,8 @@ class EmployeeFullDetailsSerializer(serializers.ModelSerializer):
     composition-related PersonalData).
     """
     birth_date = serializers.DateField(source='personal_data.birth_date')
-    address = serializers.CharField(max_length=60, source='personal_data.address')
+    address = serializers.CharField(max_length=60,
+                                    source='personal_data.address')
     salary = serializers.DecimalField(max_digits=6, decimal_places=2,
                                       source='personal_data.salary')
 

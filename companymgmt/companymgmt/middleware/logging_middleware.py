@@ -9,7 +9,6 @@ import socket
 import time
 import json
 import logging
-from rest_framework.response import Response
 
 
 logging.basicConfig(filename='requests.log',

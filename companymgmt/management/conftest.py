@@ -23,8 +23,11 @@ def client_fixture():
 @pytest.mark.django_db
 def admin_token_fixture(client_fixture):
     response = client_fixture.post('/token/',
-        {'username': 'krastsislau', 'password': '$def#p@ss'},
-        format='json')
+                                   {
+                                       'username': 'krastsislau',
+                                       'password': '$def#p@ss',
+                                   },
+                                   format='json')
     assert response.status_code == 200
     access_token = response.data['access']
 
@@ -38,8 +41,11 @@ def admin_token_fixture(client_fixture):
 @pytest.fixture(autouse=False, scope='function')
 def nonadmin_token_fixture(client_fixture):
     response = client_fixture.post('/token/',
-        {'username': 'joe', 'password': 'wh@tever'},
-        format='json')
+                                   {
+                                       'username': 'joe',
+                                       'password': 'wh@tever',
+                                   },
+                                   format='json')
     assert response.status_code == 200
     access_token = response.data['access']
 

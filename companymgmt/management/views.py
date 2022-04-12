@@ -8,7 +8,10 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from companymgmt.settings.main import JWT_AUTH
 
 from management.models import Company, Employee, Bank, PersonalData
-from management.serializers import CompanySerializer, EmployeeSerializer, BankSerializer, EmployeeFullDetailsSerializer
+from management.serializers import (CompanySerializer,
+                                    EmployeeSerializer,
+                                    BankSerializer,
+                                    EmployeeFullDetailsSerializer)
 from management.decorators import allow_admins_only
 from management.utils import apply_decorator_on_condition
 
@@ -30,6 +33,7 @@ class GetAllEmployeesFullDetails(APIView):
     A view to get info about all employees, personal data included.
     """
     permission_classes = [IsAuthenticated] if JWT_AUTH else []
+
     def get(self, request, format=None):
         employees = Employee.objects.all()
         serializer = EmployeeFullDetailsSerializer(employees, many=True)
@@ -67,9 +71,9 @@ def get_date_company(request):
     date_a = request.query_params.get('date_a')
     date_b = request.query_params.get('date_b')
     company = (Company.objects
-        .filter(created__range=[date_a, date_b],
-                updated__lte=date_b)
-        .latest('updated'))
+               .filter(created__range=[date_a, date_b],
+                       updated__lte=date_b)
+               .latest('updated'))
     serializer = CompanySerializer(company)
     return Response(serializer.data)
 
@@ -85,8 +89,8 @@ def salary_birthday_increase(request):
     salary_increase_arg = request.data.get('salary_increase')
     personal_data_objects = PersonalData.objects.filter(
                                 birth_date=birth_date_arg)
-    personal_data_objects.update(salary=F('salary')+
-                                salary_increase_arg)
+    personal_data_objects.update(salary=F('salary')
+                                 + salary_increase_arg)
     return Response()
 
 
@@ -109,7 +113,7 @@ def get_newest_employees(request):
     employees = []
     for company in companies:
         employees.append(Employee.objects
-            .filter(company=company.id)
-            .latest('created'))
+                         .filter(company=company.id)
+                         .latest('created'))
     serializer = EmployeeSerializer(employees, many=True)
     return Response(serializer.data)

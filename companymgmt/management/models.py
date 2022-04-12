@@ -17,7 +17,7 @@ class Company(DBRecord):
     name = models.CharField(max_length=30)
     website = models.URLField(max_length=30)
     email = models.EmailField(max_length=30)
-    postcode = models.CharField(max_length=10) # tmp workaround
+    postcode = models.CharField(max_length=10)  # tmp workaround
     logo = models.ImageField(upload_to='logos', blank=True)
 
     def __str__(self):
@@ -35,11 +35,11 @@ class Employee(DBRecord):
     job_position = models.CharField(max_length=30)
     is_manager = models.BooleanField(default=False)
     is_admin = models.BooleanField(default=False)
-    phone_number = models.CharField(max_length=15) # tmp workaround
+    phone_number = models.CharField(max_length=15)  # tmp workaround
     company = models.ForeignKey(
         Company,
-        on_delete=models.CASCADE, # if company is deleted,
-                                  # so are its employees
+        on_delete=models.CASCADE,  # if company is deleted,
+                                   # so are its employees
         related_name='employee'
     )
 
@@ -49,12 +49,12 @@ class Employee(DBRecord):
 
 class PersonalData(DBRecord):
     birth_date = models.DateField()
-    address = models.CharField(max_length=60) # tmp workaround (TextField maybe ?)
+    address = models.CharField(max_length=60)
     salary = models.DecimalField(max_digits=6, decimal_places=2)
     employee = models.OneToOneField(
         Employee,
-        on_delete=models.CASCADE, # if employee is deleted,
-                                  # personal data should be too
+        on_delete=models.CASCADE,  # if employee is deleted,
+                                   # personal data should be too
         related_name='personal_data'
     )
 

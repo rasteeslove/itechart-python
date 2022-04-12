@@ -9,5 +9,5 @@ def apply_decorator_on_condition(dec, condition):
         if condition:
             func = dec(func)
         return func
-        
+
     return wrapper

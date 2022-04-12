@@ -22,13 +22,13 @@ def test_get_all_employees_full_details(client_fixture: APIClient):
 
 
 def test_get_all_employees_full_details_nonadmin(client_fixture: APIClient,
-        nonadmin_token_fixture):
+                                                 nonadmin_token_fixture):
     response = client_fixture.get('/api/all-employees-full')
     assert response.status_code == 200
 
 
 def test_get_all_employees_full_details_admin(client_fixture: APIClient,
-        admin_token_fixture):
+                                              admin_token_fixture):
     response = client_fixture.get('/api/all-employees-full')
     assert response.status_code == 200
     print(len(response.json()))
@@ -44,13 +44,13 @@ def test_list_all_companies(client_fixture: APIClient):
 
 @pytest.mark.xfail
 def test_list_all_companies_nonadmin(client_fixture: APIClient,
-        nonadmin_token_fixture):
+                                     nonadmin_token_fixture):
     response = client_fixture.get('/api/all-companies')
     assert response.status_code == 200
 
 
 def test_list_all_companies_admin(client_fixture: APIClient,
-        admin_token_fixture):
+                                  admin_token_fixture):
     response = client_fixture.get('/api/all-companies')
     assert response.status_code == 200
     print(len(response.json()))
@@ -66,13 +66,13 @@ def test_get_all_banks(client_fixture: APIClient):
 
 @pytest.mark.xfail
 def test_get_all_banks_nonadmin(client_fixture: APIClient,
-        nonadmin_token_fixture):
+                                nonadmin_token_fixture):
     response = client_fixture.get('/api/all-banks')
     assert response.status_code == 200
 
 
 def test_get_all_banks_admin(client_fixture: APIClient,
-        admin_token_fixture):
+                             admin_token_fixture):
     response = client_fixture.get('/api/all-banks')
     assert response.status_code == 200
     print(len(response.json()))
