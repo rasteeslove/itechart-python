@@ -1,4 +1,4 @@
-from companymgmt.settings.secrets import postgres_db_pass, docker_postgres_db_pass
+from companymgmt.settings.secrets import postgres_db_pass
 
 
 LOCAL_DEV = {
@@ -21,10 +21,10 @@ LOCAL_TEST = {
 
 DOCKER_DEV = {
     'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'docker_companymgmtdb',
+    'NAME': 'postgres',
     'USER': 'container-lord',
-    'PASSWORD': docker_postgres_db_pass,
-    'HOST': 'cmgmt_db',
+    'PASSWORD': 'wh@tever',
+    'HOST': 'dev_db',
     'PORT': '5432',
 }
 
@@ -33,6 +33,6 @@ DOCKER_TEST = {
     'NAME': 'postgres',
     'USER': 'postgres',
     'PASSWORD': 'postgres',
-    'HOST': 'cmgmt_db',
+    'HOST': 'test_db',
     'PORT': '5432',
 }

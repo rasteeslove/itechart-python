@@ -24,6 +24,12 @@ launch_dev_docker:
 	docker-compose -f docker-compose-dev.yml build; \
 	docker-compose -f docker-compose-dev.yml up
 
+launch_docker_tests:
+	export CMGMT_DATABASE_MODE=docker_test; \
+	docker-compose -f docker-compose-test.yml build; \
+	docker-compose -f docker-compose-test.yml up; \
+	python manage.py runserver
+
 run_docker_tests:
 	export CMGMT_DATABASE_MODE=docker_test; \
 	docker-compose -f docker-compose-test.yml build; \

@@ -29,7 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secrets.secret_key
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '0.0.0.0',
+    '127.0.0.1',
+]
 
 
 # Application definition
@@ -140,7 +143,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # [!!!]
 # Manual settings
 DEBUG = True
-JWT_AUTH = False
+JWT_AUTH = True
 
 
 # [!!!]
