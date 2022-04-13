@@ -1,0 +1,32 @@
+services:
+    dev_db:
+        build:
+            context: ./
+            dockerfile: ./db-dockerfile/dockerfile
+        volumes:
+            - dev_vol_1:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=container-lord
+            - POSTGRES_PASSWORD=wh@tever
+    dev_web:
+        build:
+            context: ./
+            dockerfile: ./web-dockerfile/dockerfile
+        command: bash -c "
+            export CMGMT_DATABASE_MODE=docker_dev &&
+            chmod +x ./postgres-awaiter.sh &&
+            ./postgres-awaiter.sh dev_db &&
+            python manage.py makemigrations &&
+            python manage.py migrate &&
+            python manage.py runserver 0.0.0.0:8000"
+        volumes:
+            - .:/code
+        ports:
+            - "8000:8000"
+        depends_on:
+            - dev_db
+
+volumes:
+    dev_vol_1:
+        external: false

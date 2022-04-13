@@ -1,0 +1,30 @@
+services:
+    test_db:
+        image: postgres
+        volumes:
+            - test_vol_1:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+    test_web:
+        build:
+            context: ./
+            dockerfile: ./web-dockerfile/dockerfile
+        command: bash -c "
+            export CMGMT_DATABASE_MODE=docker_test &&
+            chmod +x ./postgres-awaiter.sh &&
+            ./postgres-awaiter.sh test_db &&
+            python manage.py makemigrations &&
+            python manage.py migrate &&
+            coverage run -m pytest -rP"
+        volumes:
+            - .:/code
+        ports:
+            - "8000:8000"
+        depends_on:
+            - test_db
+
+volumes:
+    test_vol_1:
+        external: false

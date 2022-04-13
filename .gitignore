@@ -128,6 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# my secret keys and passwords, etc
+secrets.py
+
+# the logo directory
+logos/
 
 # for my file manipulation testing
 *.demo
