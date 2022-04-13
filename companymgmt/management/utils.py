@@ -4,8 +4,11 @@ of the management app (the point is mainly easier operation of the API).
 """
 
 
-def apply_decorator_on_condition(dec, condition):
-    def wrapper(func):
+from typing import Callable
+
+
+def apply_decorator_on_condition(dec: Callable, condition: bool) -> Callable:
+    def wrapper(func: Callable) -> Callable:
         if condition:
             func = dec(func)
         return func

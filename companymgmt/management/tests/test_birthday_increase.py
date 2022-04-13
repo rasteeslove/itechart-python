@@ -18,7 +18,9 @@ test_cases = [
 
 
 @pytest.mark.parametrize('date, increase', test_cases)
-def test_birthday_increase(client_fixture: APIClient, date, increase):
+def test_birthday_increase(client_fixture: APIClient,
+                           date: str,
+                           increase: float) -> None:
     pdatas = PersonalData.objects.filter(birth_date=date)
     old_salaries = [pdata.salary for pdata in pdatas]
     response = client_fixture.post('/api/salary-birthday-increase',

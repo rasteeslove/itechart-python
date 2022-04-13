@@ -5,7 +5,7 @@ from rest_framework.test import APIClient
 pytestmark = pytest.mark.django_db
 
 
-def test_get_newest_employees(client_fixture: APIClient):
+def test_get_newest_employees(client_fixture: APIClient) -> None:
     response = client_fixture.get('/api/newest-employees')
     assert response.status_code == 200
     newest_employees = response.json()

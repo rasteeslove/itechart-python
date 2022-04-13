@@ -23,7 +23,7 @@ sample_01 = [
 ]
 
 
-def test_create_companies(client_fixture: APIClient):
+def test_create_companies(client_fixture: APIClient) -> None:
     old_companies_number = len(Company.objects.all())
     response = client_fixture.post('/api/create-companies',
                                    {'companies_data': sample_01},

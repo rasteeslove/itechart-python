@@ -1,8 +1,10 @@
+from typing import Any, Union
 from django.db.models import F
 from rest_framework.views import APIView
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from companymgmt.settings.main import JWT_AUTH
@@ -22,7 +24,7 @@ class GetAllEmployees(APIView):
     """
     A view to get info about all employees, personal data excluded.
     """
-    def get(self, request, format=None):
+    def get(self, request: Request, format: Any = None) -> Response:
         employees = Employee.objects.all()
         serializer = EmployeeSerializer(employees, many=True)
         return Response(serializer.data)
@@ -34,7 +36,7 @@ class GetAllEmployeesFullDetails(APIView):
     """
     permission_classes = [IsAuthenticated] if JWT_AUTH else []
 
-    def get(self, request, format=None):
+    def get(self, request: Request, format: Any = None) -> Response:
         employees = Employee.objects.all()
         serializer = EmployeeFullDetailsSerializer(employees, many=True)
         return Response(serializer.data)
@@ -45,7 +47,7 @@ class ListAllCompanies(generics.ListCreateAPIView):
     serializer_class = CompanySerializer
     permission_classes = [IsAdminUser] if JWT_AUTH else []
 
-    def list(self, request):
+    def list_(self, request: Request) -> Response:
         queryset = self.get_queryset()
         serializer = CompanySerializer(queryset, many=True)
         return Response(serializer.data)
@@ -53,7 +55,7 @@ class ListAllCompanies(generics.ListCreateAPIView):
 
 @api_view()
 @apply_decorator_on_condition(allow_admins_only, JWT_AUTH)
-def get_all_banks(request):
+def get_all_banks(request: Request) -> Response:
     banks = Bank.objects.all()
     serializer = BankSerializer(banks, many=True)
     return Response(serializer.data)
@@ -62,7 +64,7 @@ def get_all_banks(request):
 # these are "logic" views:
 
 @api_view(['GET'])
-def get_date_company(request):
+def get_date_company(request: Request) -> Response:
     """
     Take two dates as arguments - date_a and date_b, date_a < date_b.
     Return a company that was created in a given date period
@@ -79,13 +81,13 @@ def get_date_company(request):
 
 
 @api_view(['POST'])
-def salary_birthday_increase(request):
+def salary_birthday_increase(request: Request) -> Response:
     """
     Take number and date as arguments.
     Increase salary by the number for all employees
     that have the date as their birthday.
     """
-    birth_date_arg = request.data.get('birth_date')
+    birth_date_arg: str = str(request.data.get('birth_date'))
     salary_increase_arg = request.data.get('salary_increase')
     personal_data_objects = PersonalData.objects.filter(
                                 birth_date=birth_date_arg)
@@ -95,17 +97,19 @@ def salary_birthday_increase(request):
 
 
 @api_view(['POST'])
-def create_companies(request):
+def create_companies(request: Request) -> Response:
     """
     Take any number of company data and create the companies.
     """
-    for company_data in request.data.get('companies_data'):
-        Company(**company_data).save()
+    companies_data: Union[None, list] = request.data.get('companies_data')
+    if companies_data:
+        for company_data in companies_data:
+            Company(**company_data).save()
     return Response()
 
 
 @api_view(['GET'])
-def get_newest_employees(request):
+def get_newest_employees(request: Request) -> Response:
     """
     Return the last created employee for each company.
     """

@@ -19,7 +19,9 @@ test_cases = [
 
 
 @pytest.mark.parametrize('dates, res_company_name', test_cases)
-def test_get_date_company(client_fixture: APIClient, dates, res_company_name):
+def test_get_date_company(client_fixture: APIClient,
+                          dates: dict,
+                          res_company_name: str) -> None:
     response = client_fixture.get('/api/date-company', dates)
     assert response.status_code == 200
     company = response.json()

@@ -5,10 +5,13 @@ Sources:
 https://wilspi.com/post/tech/django-middleware-to-log-requests/
 """
 
+from typing import Callable
 import socket
 import time
 import json
 import logging
+from rest_framework.request import Request
+from rest_framework.response import Response
 
 
 logging.basicConfig(filename='requests.log',
@@ -25,10 +28,10 @@ class LoggingMiddleware:
     A middleware for logging all request and response data into a file.
     """
 
-    def __init__(self, get_response):
+    def __init__(self, get_response: Callable):
         self.get_response = get_response
 
-    def __call__(self, request):
+    def __call__(self, request: Request) -> Response:
         self.log_data = {}
 
         # log some essential request metadata:
@@ -57,7 +60,8 @@ class LoggingMiddleware:
 
         return response
 
-    def process_exception(self, request, exception):
+    def process_exception(self, request: Request,
+                          exception: Exception) -> Exception:
         try:
             raise exception
         except Exception as e:
